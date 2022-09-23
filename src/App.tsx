@@ -2,6 +2,7 @@ import reactLogo from "./assets/react.svg";
 import { validAnagram } from "./scripts/section5";
 import { countdown } from "./scripts/section7";
 import { linearSearch } from "./scripts/section10";
+import { bubbleSort } from "./scripts/sortingAlgos";
 import "./App.css";
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
       <div className="card">{validAnagram("anagram", "nagaram")}</div>
       <div className="card">{countdown(5)}</div>
       <div className="card">{linearSearch([1, 2, 3, 4, 5], 3)}</div>
+      <div className="card">{bubbleSort([1, 2, 3, 4, 5])}</div>
     </div>
   );
 }
