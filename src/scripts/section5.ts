@@ -1,3 +1,7 @@
+////////////////////////////////////*
+//*common problem solving patterns//*
+////////////////////////////////////*
+
 // anagram pattern
 export function validAnagram(str1: string, str2: string) {
   //check if the length of the strings are equal
