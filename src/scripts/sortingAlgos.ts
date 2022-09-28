@@ -54,6 +54,73 @@ export function insertionSort(array: number[]): number[] {
   return array;
 }
 
+//merge sort
+export function mergeSort(arr: number[]): number[] {
+  if (arr.length <= 1) return arr;
+  let mid = Math.floor(arr.length / 2);
+  let left = mergeSort(arr.slice(0, mid));
+  let right = mergeSort(arr.slice(mid));
+  return merge(left, right);
+}
+
+function merge(arr1: number[], arr2: number[]): number[] {
+  let results: number[] = [];
+  let i = 0;
+  let j = 0;
+  while (i < arr1.length && j < arr2.length) {
+    if (arr2[j] > arr1[i]) {
+      results.push(arr1[i]);
+      i++;
+    } else {
+      results.push(arr2[j]);
+      j++;
+    }
+  }
+  while (i < arr1.length) {
+    results.push(arr1[i]);
+    i++;
+  }
+  while (j < arr2.length) {
+    results.push(arr2[j]);
+    j++;
+  }
+  return results;
+}
+
+function partition(arr: number[], start: number, end: number) {
+  let pivot = arr[start];
+  let swapIdx = start;
+  for (let i = start + 1; i <= end; i++) {
+    if (pivot > arr[i]) {
+      swapIdx++;
+      let temp = arr[swapIdx];
+      arr[swapIdx] = arr[i];
+      arr[i] = temp;
+    }
+  }
+  let temp = arr[start];
+  arr[start] = arr[swapIdx];
+  arr[swapIdx] = temp;
+  return swapIdx;
+}
+
+// quick sort
+export function quickSort(
+  arr: number[],
+  left: number,
+  right: number
+): number[] {
+  let pivot;
+  let partitionIndex;
+  if (left < right) {
+    pivot = right;
+    partitionIndex = partition(arr, left, right);
+    quickSort(arr, left, partitionIndex - 1);
+    quickSort(arr, partitionIndex + 1, right);
+  }
+  return arr;
+}
+
 function main() {
   console.log("bubble sort");
   console.log(bubbleSort([37, 45, 29, 8])); // [8, 29, 37, 45]
