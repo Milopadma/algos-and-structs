@@ -5,21 +5,32 @@ class Node {
 }
 
 class SinglyLinkedList {
-  constructor(public head: Node | null = null) {
+  constructor(
+    public head: Node | null = null,
+    public tail: Node | null,
+    public length: number = 0
+  ) {
     this.head = head;
     this.tail = tail;
+    this.length = length;
   }
-  add(data: string): void {
+  add(data: string): SinglyLinkedList {
     const node = new Node(data);
+    // if there is no head, set the head and
+    // tail to be the newly created node
     if (!this.head) {
       this.head = node;
-      return;
+      this.tail = this.head;
+      // otherwise set the next property on the tail
+      // to be the new node and set the tail property on
+      // the list to be the newly created node
+    } else {
+      this.tail!.next = node;
+      this.tail = node;
     }
-    let tail = this.head;
-    while (tail.next) {
-      tail = tail.next;
-    }
-    tail.next = node;
+
+    this.length++;
+    return this;
   }
 }
 
@@ -31,7 +42,7 @@ first.next.next.next = new Node("are");
 first.next.next.next.next = new Node("you");
 
 //better way to do it
-var list = new SinglyLinkedList(first);
+var list = new SinglyLinkedList(new Node("Hi"), new Node("there"));
 list.add("doing");
 
 export const Section12 = () => {};
