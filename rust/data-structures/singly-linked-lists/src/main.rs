@@ -40,6 +40,9 @@ impl<T> Link<T> where T: Copy {
         }
     }
 }
+// ref
+// https://medium.com/swlh/implementing-a-linked-list-in-rust-c25e460c3676
+
 fn main() {
     // create a new node
     // let mut head = Node {
