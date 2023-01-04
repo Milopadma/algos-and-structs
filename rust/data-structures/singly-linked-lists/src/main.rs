@@ -1,6 +1,8 @@
 // singly linked list
 // 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9 -> 10 -> null
 
+// q: why is an enum used here?
+// a: because we want to be able to represent the empty list, a tail, and a link
 enum Link<T> {
     Empty,
     Tail {
@@ -12,19 +14,27 @@ enum Link<T> {
     },
 }
 
+// q: why is a trait bound used here?
+// a: because we want to be able to copy the data into the list
 impl<T> Link<T> where T: Copy {
+    // impl<T> Link<T> where T: Copy means that the type T must implement the Copy trait
     fn push(&mut self, x: T) {
+        // the &mut self is a reference to the current node in the list
         match self {
-            Link::Empty => {
+            // match the current node in the list to see if it is empty, a tail, or a link
+            Self::Empty => {
+                // if the current node is empty then create a new tail
                 *self = Link::Tail { data: x };
             }
-            Link::Tail { data } => {
+            Self::Tail { data } => {
+                // if the current node is a tail then create a new link
                 *self = Link::Link {
                     data: *data,
                     next: Box::new(Link::Tail { data: x }),
                 };
             }
-            Link::Link { data, next } => {
+            Self::Link { data, next } => {
+                // if the current node is a link then push the new data onto the next node
                 next.push(x);
             }
         }
