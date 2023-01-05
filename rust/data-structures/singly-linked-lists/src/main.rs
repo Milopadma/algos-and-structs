@@ -39,6 +39,21 @@ impl<T> Link<T> where T: Copy {
             }
         }
     }
+
+    //to turn a link into a Link::Tail variant
+    fn to_tail(&mut self, it: T) {
+        match self {
+            Self::Empty => {
+                *self = Link::Tail { data: it };
+            }
+            Self::Link { data: _, next: _ } => {
+                *self = Link::Tail { data: it };
+            }
+            _ => {
+                panic!("couldnt convert");
+            }
+        }
+    }
 }
 // ref
 // https://medium.com/swlh/implementing-a-linked-list-in-rust-c25e460c3676
