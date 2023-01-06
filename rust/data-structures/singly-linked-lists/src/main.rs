@@ -24,16 +24,13 @@ impl<T> Link<T> where T: Copy {
             // match the current node in the list to see if it is empty, a tail, or a link
             Self::Empty => {
                 // if the current node is empty then create a new tail
-                *self = Link::Tail { data: x };
+                self.to_tail(x);
             }
-            Self::Tail { data } => {
+            Self::Tail { .. } => {
                 // if the current node is a tail then create a new link
-                *self = Link::Link {
-                    data: *data,
-                    next: Box::new(Link::Tail { data: x }),
-                };
+                self.to_link(x);
             }
-            Self::Link { data, next } => {
+            Self::Link { next, .. } => {
                 // if the current node is a link then push the new data onto the next node
                 next.push(x);
             }
@@ -48,6 +45,21 @@ impl<T> Link<T> where T: Copy {
             }
             Self::Link { data: _, next: _ } => {
                 *self = Link::Tail { data: it };
+            }
+            _ => {
+                panic!("couldnt convert");
+            }
+        }
+    }
+
+    // to turn a link into a Link::Link variant
+    fn to_link(&mut self, x: T) {
+        match self {
+            Self::Tail { data: _ } => {
+                *self = Link::Link {
+                    data: x,
+                    next: Box::new(Link::Empty),
+                };
             }
             _ => {
                 panic!("couldnt convert");
