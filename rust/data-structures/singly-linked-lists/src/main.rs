@@ -79,13 +79,25 @@ impl<T> Link<T> where T: Copy {
 
                 Some(data) // return the data
             }
-            Self::Link { data, next } => {/*? */}
+            Self::Link { data, next } => {
+                let mut n = Box::new(Self::Empty); // create a new empty node
+                let data = *data; // copy the data into a new variable
+                std::mem::swap(next, &mut n); // swap the next node with the empty node
+                self.to_next(*n); // turn the current node into the next node
+
+                Some(data) // return the data
+            }
         }
     }
 
     // conversion functions
     fn to_none(&mut self) {
         *self = std::mem::replace(self, Link::Empty); // replace the current node with an empty node in memory
+    }
+
+    fn to_next(&mut self, nxt: Link<T>) {
+        // q: why is the nxt parameter a Link<T> type? a: because we want to be able to replace the current node with the next node
+        *self = nxt;
     }
 }
 // ref
