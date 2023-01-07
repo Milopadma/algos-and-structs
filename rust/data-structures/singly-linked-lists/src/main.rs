@@ -70,11 +70,22 @@ impl<T> Link<T> where T: Copy {
 
     // now for the pop method
     pub fn pop(&mut self) -> Option<T> {
+        // pop returns an Option type because the list may be empty
         match self {
             Self::Empty => None,
-            Self::Tail { data } => {/*? */}
+            Self::Tail { data } => {
+                let data = *data; // copy the data into a new variable
+                self.to_none(); // turn the tail into an empty node
+
+                Some(data) // return the data
+            }
             Self::Link { data, next } => {/*? */}
         }
+    }
+
+    // conversion functions
+    fn to_none(&mut self) {
+        *self = std::mem::replace(self, Link::Empty); // replace the current node with an empty node in memory
     }
 }
 // ref
