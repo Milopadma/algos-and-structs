@@ -66,6 +66,16 @@ impl<T> Link<T> where T: Copy {
             }
         }
     }
+    // at this point, Push is implemented for the Link enum
+
+    // now for the pop method
+    pub fn pop(&mut self) -> Option<T> {
+        match self {
+            Self::Empty => None,
+            Self::Tail { data } => {/*? */}
+            Self::Link { data, next } => {/*? */}
+        }
+    }
 }
 // ref
 // https://medium.com/swlh/implementing-a-linked-list-in-rust-c25e460c3676
