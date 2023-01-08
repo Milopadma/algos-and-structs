@@ -18,7 +18,7 @@ enum Link<T> {
 // a: because we want to be able to copy the data into the list
 impl<T> Link<T> where T: Copy {
     // impl<T> Link<T> where T: Copy means that the type T must implement the Copy trait
-    fn push(&mut self, x: T) {
+    pub fn push(&mut self, x: T) {
         // the &mut self is a reference to the current node in the list
         match self {
             // match the current node in the list to see if it is empty, a tail, or a link
@@ -39,32 +39,24 @@ impl<T> Link<T> where T: Copy {
 
     //to turn a link into a Link::Tail variant
     fn to_tail(&mut self, it: T) {
-        match self {
-            Self::Empty => {
-                *self = Link::Tail { data: it };
-            }
-            Self::Link { data: _, next: _ } => {
-                *self = Link::Tail { data: it };
-            }
-            _ => {
-                panic!("couldnt convert");
-            }
-        }
+        *self = match self {
+            Self::Empty => Link::Tail { data: it },
+            Self::Link { data: _, next: _ } => Self::Tail { data: it },
+
+            _ => panic!("couldnt convert"),
+        };
     }
 
     // to turn a link into a Link::Link variant
     fn to_link(&mut self, x: T) {
-        match self {
-            Self::Tail { data: _ } => {
-                *self = Link::Link {
-                    data: x,
-                    next: Box::new(Link::Empty),
-                };
-            }
-            _ => {
-                panic!("couldnt convert");
-            }
-        }
+        *self = match self {
+            Self::Tail { data } =>
+                Self::Link {
+                    data: *data,
+                    next: Box::new(Self::Tail { data: x }),
+                },
+            _ => panic!("couldnt convert"),
+        };
     }
     // at this point, Push is implemented for the Link enum
 
@@ -99,11 +91,26 @@ impl<T> Link<T> where T: Copy {
         // q: why is the nxt parameter a Link<T> type? a: because we want to be able to replace the current node with the next node
         *self = nxt;
     }
+
+    fn new() -> Self {
+        Self::Empty
+    }
 }
 // ref
 // https://medium.com/swlh/implementing-a-linked-list-in-rust-c25e460c3676
 
 fn main() {
+    // new linked list
+    let mut list: Link<i32> = Link::new();
+
+    list.push(1);
+    list.push(2);
+    list.push(3);
+
+    println!("{:?}", list.pop().unwrap());
+    println!("{:?}", list.pop().unwrap());
+    println!("{:?}", list.pop().unwrap());
+
     // create a new node
     // let mut head = Node {
     //     data: 1,
