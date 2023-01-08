@@ -129,6 +129,7 @@ impl<T> Iterator for Cursor<T> where T: Copy {
                 Some(data)
             }
             Link::Link { data, ref mut next } => {
+                // q: why is the next parameter a ref mut? a: because we want are taking a mutable reference to the prefixed field
                 let mut n = Box::new(Link::Empty);
                 std::mem::swap(next, &mut n);
                 self.curr = *n;
@@ -136,20 +137,36 @@ impl<T> Iterator for Cursor<T> where T: Copy {
                 Some(data)
             }
         };
-        nxt
+        nxt // return the option wrapped value
     }
 }
 fn main() {
     // new linked list
     let mut list: Link<i32> = Link::new();
+    let mut list_2: Link<i32> = Link::new();
 
     list.push(1);
     list.push(2);
     list.push(3);
 
+    list_2.push(42);
+    list_2.push(52);
+    list_2.push(62);
+
     println!("{:?}", list.pop().unwrap());
     println!("{:?}", list.pop().unwrap());
     println!("{:?}", list.pop().unwrap());
+    println!("---");
+
+    // Link has implemented IntoIterator, so we can use the for loop to iterate through the list
+    for i in list.clone() {
+        println!("{}", i);
+    }
+
+    // with the IntoIterator trait implemented, we can see index and value pairs
+    for (i, x) in list_2.into_iter().enumerate() {
+        println!("{}: {}", i, x);
+    }
 
     // create a new node
     // let mut head = Node {
