@@ -3,6 +3,7 @@
 
 // q: why is an enum used here?
 // a: because we want to be able to represent the empty list, a tail, and a link
+#[derive(Clone)]
 enum Link<T> {
     Empty,
     Tail {
@@ -50,6 +51,7 @@ impl<T> Link<T> where T: Copy {
     // to turn a link into a Link::Link variant
     fn to_link(&mut self, x: T) {
         *self = match self {
+            // why is the match statement using *self? a: because we want to be able to replace the current node with a new node
             Self::Tail { data } =>
                 Self::Link {
                     data: *data,
@@ -99,6 +101,44 @@ impl<T> Link<T> where T: Copy {
 // ref
 // https://medium.com/swlh/implementing-a-linked-list-in-rust-c25e460c3676
 
+// Cursor struct
+#[derive(Clone)] // q: why is the Clone trait bound used here? a: because we want to be able to clone the cursor
+struct Cursor<T> {
+    curr: Link<T>,
+}
+
+impl<T> IntoIterator for Link<T> where T: Copy {
+    // spawns a Cursor to iterate through the Link sequence
+    type Item = T;
+    type IntoIter = Cursor<T>;
+
+    fn into_iter(self) -> Self::IntoIter {
+        Cursor { curr: self }
+    }
+}
+
+impl<T> Iterator for Cursor<T> where T: Copy {
+    type Item = T;
+
+    fn next(&mut self) -> Option<T> {
+        let nxt = match self.curr {
+            Link::Empty => None,
+            Link::Tail { data } => {
+                self.curr = Link::Empty;
+
+                Some(data)
+            }
+            Link::Link { data, ref mut next } => {
+                let mut n = Box::new(Link::Empty);
+                std::mem::swap(next, &mut n);
+                self.curr = *n;
+
+                Some(data)
+            }
+        };
+        nxt
+    }
+}
 fn main() {
     // new linked list
     let mut list: Link<i32> = Link::new();
