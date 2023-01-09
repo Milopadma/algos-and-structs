@@ -32,3 +32,5 @@ fn main() {
     bubble_sort(&mut vector);
     println!("{:?}", vector);
 }
+
+// ref https://applied-math-coding.medium.com/implementing-standard-algorithms-in-rust-bubble-sort-selection-sort-5c4cfb1a78c7
