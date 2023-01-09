@@ -15,7 +15,20 @@ fn bubble_sort<T: PartialOrd>(vector: &mut Vec<T>) {
     }
 }
 
+#[cfg(test)]
+mod tests {
+    // test module
+    use super::*; // quick import of the bubble_sort function
 
+    #[test]
+    fn test_bubble_sort_1() {
+        let mut vector = vec![0, 2, 3, 1, 4, 1];
+        bubble_sort(&mut vector);
+        assert_eq!(vector, vec![0, 1, 1, 2, 3, 4]);
+    }
+}
 fn main() {
-
+    let mut vector = vec![0, 2, 3, 1, 4, 1];
+    bubble_sort(&mut vector);
+    println!("{:?}", vector);
 }
