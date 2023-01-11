@@ -22,25 +22,27 @@ fn _quick_sort<T: Ord>(arr: &mut [T], low: isize, high: isize) {
 
 fn partition<T: Ord>(arr: &mut [T], low: isize, high: isize) -> isize {
     let pivot = high as usize; // pivot is the last element
-    let mut store_index = low - 1;
-    let mut last_index = high;
+    let mut store_index = low - 1; // store_index is the index of the smaller element
+    let mut last_index = high; // last_index is the last element
 
     loop {
-        store_index += 1;
+        store_index += 1; // increment store_index
         while arr[store_index as usize] < arr[pivot] {
-            store_index += 1;
+            // if the element is smaller than the pivot
+            store_index += 1; // increment store_index, q:why? a:to find the next bigger element
         }
         last_index -= 1;
         while last_index >= 0 && arr[last_index as usize] > arr[pivot] {
-            last_index -= 1;
+            // if the element is bigger than the pivot
+            last_index -= 1; // decrement last_index, q:why? a:to find the next smaller element
         }
         if store_index >= last_index {
-            break;
+            break; // why break? a: because the list is sorted
         } else {
-            arr.swap(store_index as usize, last_index as usize);
+            arr.swap(store_index as usize, last_index as usize); // swap the elements
         }
     }
-    arr.swap(store_index as usize, pivot as usize);
+    arr.swap(store_index as usize, pivot as usize); // swap the pivot with the store_index because
     store_index
 }
 
