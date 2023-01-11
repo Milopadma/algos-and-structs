@@ -10,8 +10,17 @@ pub fn quick_sort<T: Ord>(arr: &mut [T]) {
     _quick_sort(arr, 0, (len - 1) as isize);
 }
 
-fn _quick_sort<T: Ord>(arr: &mut [T], low: isize, high: isize) -> isize {
-    let pivot = high as usize;
+fn _quick_sort<T: Ord>(arr: &mut [T], low: isize, high: isize) {
+    if low < high {
+        // if low is greater than high, the list is sorted
+        let p = partition(arr, low, high); // partition the list
+        _quick_sort(arr, low, p - 1); // recusive call to quicksort
+        _quick_sort(arr, p + 1, high); // recusive call to quicksort
+    }
+}
+
+fn partition<T: Ord>(arr: &mut [T], low: isize, high: isize) -> isize {
+    let pivot = high as usize; // pivot is the last element
     let mut store_index = low - 1;
     let mut last_index = high;
 
