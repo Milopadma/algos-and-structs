@@ -1,5 +1,6 @@
 // quicksort in rust
 // ref https://www.hackertouch.com/quick-sort-in-rust.html
+// ref https://gist.github.com/Triagle/96b9065bf240f94a0c0f
 
 // quicksort creates a pivot and partitioning the list around it, where bigger elements are on
 // one side and smaller on the other, and repeated until every element is sorted in
