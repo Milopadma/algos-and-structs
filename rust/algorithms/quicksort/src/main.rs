@@ -7,10 +7,15 @@
 // each sublist
 
 pub fn quick_sort<T: Ord>(arr: &mut [T]) {
+    // type T must implement Ord because we are comparing elements
+    // this function is a warpper for the _quick_sort function, as
+    // _quick_sort takes two more arguments
     let len = arr.len();
     _quick_sort(arr, 0, (len - 1) as isize);
 }
 
+// a private function that takes a mut slice of generic type
+// this function is recursive
 fn _quick_sort<T: Ord>(arr: &mut [T], low: isize, high: isize) {
     if low < high {
         // if low is greater than high, the list is sorted
@@ -20,6 +25,7 @@ fn _quick_sort<T: Ord>(arr: &mut [T], low: isize, high: isize) {
     }
 }
 
+// a private function that partitions the mut array depending on the pivot element
 fn partition<T: Ord>(arr: &mut [T], low: isize, high: isize) -> isize {
     let pivot = high as usize; // pivot is the last element
     let mut store_index = low - 1; // store_index is the index of the smaller element
