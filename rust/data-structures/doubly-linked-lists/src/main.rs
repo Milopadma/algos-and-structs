@@ -14,4 +14,16 @@ struct ListNode<T> {
 // this is a type alias for the Option<Rc<RefCell<ListNode<T>>>>
 type Link<T> = Option<Rc<RefCell<ListNode<T>>>>;
 
+// implement the struct
+impl<T> ListNode<T> {
+    // new function to create a new empty ListNode
+    fn new(item: T) -> Self {
+        Self {
+            item,
+            next: None,
+            prev: None, // this was not in the singly linked list
+        }
+    }
+}
+
 // ref https://rtoch.com/posts/rust-doubly-linked-list/#:~:text=Doubly%20Linked%20List%20(or%20Linked,Stack%20%2C%20Queue%20%2C%20and%20Deque%20.
