@@ -26,4 +26,35 @@ impl<T> ListNode<T> {
     }
 }
 
+// now getting into the actual Doubly Linked List implementations
+
+// struct for the DoublyLinkList
+struct DoublyLinkedList<T> {
+    head: Link<T>,
+    tail: Link<T>,
+    size: usize,
+}
+
+// implement for the struct
+impl<T> DoublyLinkedList<T> {
+    // for new doubly linked list
+    pub fn new() -> Self {
+        Self {
+            head: None,
+            tail: None,
+            size: 0,
+        }
+    }
+
+    // to check if the linkedlist is empty
+    pub fn is_empty(&self) -> bool {
+        self.len() == 0
+    }
+
+    // to check the length of the linkedlist
+    pub fn len(&self) -> usize {
+        self.size
+    }
+}
+
 // ref https://rtoch.com/posts/rust-doubly-linked-list/#:~:text=Doubly%20Linked%20List%20(or%20Linked,Stack%20%2C%20Queue%20%2C%20and%20Deque%20.
