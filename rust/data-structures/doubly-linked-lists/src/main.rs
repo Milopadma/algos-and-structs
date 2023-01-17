@@ -60,6 +60,7 @@ impl<T> DoublyLinkedList<T> {
     pub fn push_back(&mut self, item: T) {
         let node = Rc::new(RefCell::new(ListNode::new(item))); // this builds a new node
         if let Some(prev_tail) = self.tail.take() {
+            //takes the value out of the option and puts it into a Some of the prev_tail
             prev_tail.borrow_mut().next = Some(Rc::clone(&node));
             node.borrow_mut().prev = Some(prev_tail);
             self.tail = Some(node);
