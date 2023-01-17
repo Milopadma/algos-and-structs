@@ -55,6 +55,21 @@ impl<T> DoublyLinkedList<T> {
     pub fn len(&self) -> usize {
         self.size
     }
+
+    // push function here
+    pub fn push_back(&mut self, item: T) {
+        let node = Rc::new(RefCell::new(ListNode::new(item))); // this builds a new node
+        if let Some(prev_tail) = self.tail.take() {
+            prev_tail.borrow_mut().next = Some(Rc::clone(&node));
+            node.borrow_mut().prev = Some(prev_tail);
+            self.tail = Some(node);
+            self.size += 1;
+        } else {
+            self.head = Some(Rc::clone(&node));
+            self.tail = Some(node);
+            self.size = 1;
+        }
+    }
 }
 
 // ref https://rtoch.com/posts/rust-doubly-linked-list/#:~:text=Doubly%20Linked%20List%20(or%20Linked,Stack%20%2C%20Queue%20%2C%20and%20Deque%20.
